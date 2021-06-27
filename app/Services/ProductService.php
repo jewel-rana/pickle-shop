@@ -36,12 +36,12 @@ class ProductService
         return false;
     }
 
-    public function update(array $data, int $id)
+    public function update(array $data, int $id): bool
     {
         DB::transaction(function() use($data, $id) {
             $this->productRepository->update($data, $id);
             collect($data['variants'])->each(function ($item, $key) use ($id) {
-                $this->productVariantService->update($item, $id);
+                return $this->productVariantService->update($item, $id);
             });
             return true;
         }, 3);

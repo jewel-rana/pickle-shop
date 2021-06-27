@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\Constants\AppConstant;
-use App\Models\Product;
 
 class ProductVariantService
 {
