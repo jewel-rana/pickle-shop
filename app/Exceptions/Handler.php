@@ -40,4 +40,18 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->error(__('Model not found'), $exception->getMessage());
+        }
+        if($exception instanceof ValidationException) {
+            return response()->error(__('Validation failed'), $exception->getMessage());
+        }
+        if ($request->wantsJson()) {
+            return parent::prepareJsonResponse($request, $exception);
+        }
+        return parent::render($request, $exception);
+    }
 }
