@@ -13,25 +13,26 @@ class ProductVariantService
         //save product variant
         $variant = $product->productVariants()->create([
             'price' => $data['price'],
-            'status' => $data['qty'] ?? AppConstant::PRODUCT_AVAILABLE
+            'status' => (array_key_exists('qty', $data)) ? AppConstant::PRODUCT_AVAILABLE : AppConstant::PRODUCT_UNAVAILABLE
         ]);
 
         //Save variant attributes
-        if(is_array($data['attributes'])) {
-            $variant->attributes()->createMany([
-                collect($data['attributes'])->map(function($item, $key) {
-                    return [
-                       'type' => $item['type'],
-                        'value' => $item['value']
-                    ];
-                })->toArray()
-            ]);
+        if (is_array($data['attributes'])) {
+            $maps = collect($data['attributes'])->map(function ($item, $key) use ($product) {
+                return [
+                    'product_id' => $product->id,
+                    'type' => $item['type'],
+                    'value' => $item['value']
+                ];
+            })->toArray();
+
+            $variant->attributes()->createMany($maps);
         }
 
         //create stock
-        $variant->stock()->create(['qty' => $data['qty'] ?? 0]);
+        $variant->stock()->create(['product_id' => $product->id, 'qty' => $data['qty'] ?? 0]);
 
-        return (bool) $variant;
+        return (bool)$variant;
     }
 
     public function update($data, int $product_id): bool

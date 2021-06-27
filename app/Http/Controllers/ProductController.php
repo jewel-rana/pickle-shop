@@ -37,9 +37,9 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ProductStoreRequest $request
-     * @return JsonResponse
+     * @return Response
      */
-    public function store(ProductStoreRequest $request): JsonResponse
+    public function store(ProductStoreRequest $request): Response
     {
         try {
             $this->productService->create($request->validated());
