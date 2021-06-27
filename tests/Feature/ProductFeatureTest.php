@@ -19,7 +19,7 @@ class ProductFeatureTest extends TestCase
      */
     public function test_product_create()
     {
-        $response = $this->withHeaders([
+        $this->withHeaders([
             'Accept' => 'application/json',
             'Content-Type' => 'json'
         ])
@@ -38,6 +38,7 @@ class ProductFeatureTest extends TestCase
                     ]
                 ]
             ]);
-        $response->assertStatus(200);
+        $products = Product::all();
+        $this->assertCount(1, $products);
     }
 }
