@@ -17,8 +17,8 @@ class CreateProductVariantsTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained();
             $table->uuid('sku');
-            $table->decimal('price', [10,2])->default(0);
-            $table->enum('status', ['pre-order', 'available', 'low', 'unavailable'])->default('available');
+            $table->decimal('price', 10, 2)->default(0);
+            $table->enum('status', ['pre-order','available','low','unavailable'])->default('unavailable');
             $table->timestamps();
         });
     }
