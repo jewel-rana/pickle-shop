@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Media extends Model
 {
     use HasFactory;
+    protected $fillable = ['attachment', 'file_name', 'size', 'dimension'];
 }
