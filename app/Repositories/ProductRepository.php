@@ -21,12 +21,12 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function create(array $data)
     {
-        return parent::create($data);
+        return $this->model->create($data);
     }
 
     public function update(array $data, $id)
     {
-        return parent::update($data, $id);
+        return $this->model->update($data, $id);
     }
 
     public function delete($id)
