@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CartHasItem;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CartStoreRequest extends FormRequest
+class OrderStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,9 +17,9 @@ class CartStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'bail|exists:products,id',
-            'product_sku' => 'bail|exists:product_variants,sku',
-            'qty' => 'bail|integer'
+            'customer_name' => ['bail', 'required', new CartHasItem()],
+            'customer_email' => 'bail|required|email',
+            'customer_address' => 'bail|required'
         ];
     }
 

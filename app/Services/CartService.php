@@ -23,6 +23,7 @@ class CartService
             $carts[$data['product_sku']] = [
                 'id' => $productVariant->sku,
                 'product_id' => $data['product_id'],
+                'product_variant_id' => $productVariant->id,
                 'product_name' => $product->name,
                 'product_attributes' => $productVariant->attributes->pluck('value', 'type')->toArray(),
                 'qty' => $data['qty'],
@@ -73,5 +74,10 @@ class CartService
     private function stockAvailable($productVariant): bool
     {
         return (bool) 1 == 1;
+    }
+
+    public function clear()
+    {
+        session()->put('carts', []);
     }
 }

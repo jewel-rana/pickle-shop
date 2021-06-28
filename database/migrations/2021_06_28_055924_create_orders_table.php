@@ -22,7 +22,6 @@ class CreateOrdersTable extends Migration
             $table->decimal('discount', 10, 2)->default(0);
             $table->enum('status', ['pending', 'active', 'cancelled', 'complete'])->default('pending')->index('order_status');
             $table->timestamps();
-            $table->foreign('customer_id')->references('id')->on('customers');
         });
     }
 
