@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDeliveryController;
 use App\Http\Controllers\ProductController;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('product', ProductController::class);
+Route::apiResource('cart', CartController::class)->only(['store', 'destory']);
 Route::group(['prefix' => 'order'], function() {
    Route::apiResource('delivery', OrderDeliveryController::class);
 });
