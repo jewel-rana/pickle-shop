@@ -34,7 +34,7 @@ class CartFeatureTest extends TestCase
             ]);
         $this->assertCount(1, $cartService->getCartItems());
         $this->withHeaders($this->getHeader())
-            ->json('DELETE', '/api/cart/' . $product->productVariants->first()->sku, null);
+            ->json('DELETE', '/api/cart/remove/' . $product->productVariants->first()->sku, []);
         $this->assertCount(0, $cartService->getCartItems());
     }
 

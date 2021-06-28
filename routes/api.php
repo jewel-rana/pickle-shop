@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('product', ProductController::class);
-Route::apiResource('cart', CartController::class)->only(['store', 'destory']);
+Route::delete('cart/remove/{any}', [CartController::class, 'destroy']);
+Route::apiResource('cart', CartController::class)->only(['store']);
 Route::group(['prefix' => 'order'], function() {
    Route::apiResource('delivery', OrderDeliveryController::class);
 });
