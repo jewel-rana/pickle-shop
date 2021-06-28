@@ -11,9 +11,9 @@ class ProductUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,11 @@ class ProductUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'name' => 'bail|required|unique:products,name,' . $this->product,
+            'description' => 'bail|nullable'
         ];
     }
 }

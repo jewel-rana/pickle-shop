@@ -17,12 +17,9 @@ class ProductFeatureTest extends TestCase
      *
      * @return void
      */
-    public function test_product_create()
+    public function test_product_store_and_update_method()
     {
-        $this->withHeaders([
-            'Accept' => 'application/json',
-            'Content-Type' => 'json'
-        ])
+        $this->withHeaders($this->getHeader())
             ->json('POST', '/api/product', [
                 'name' => 'First product',
                 'description' => 'Description of the product',
@@ -38,7 +35,26 @@ class ProductFeatureTest extends TestCase
                     ]
                 ]
             ]);
-        $products = Product::all();
-        $this->assertCount(1, $products);
+        $product = Product::with(['productVariants.attributes', 'productVariants.stock'])->find(1);
+        $this->assertCount(1, $product->productVariants);
+        $this->assertCount(2, $product->productVariants->first()->attributes);
+        $this->assertNotEmpty($product->productVariants->first()->stock);
+
+        $this->withHeaders($this->getHeader())
+            ->json('PUT', '/api/product/' . $product->id, [
+            'name' => 'Updated',
+            'description' => 'Updated description'
+        ]);
+
+        $product = Product::find($product->id);
+        $this->assertContains('Updated', $product->toArray());
+    }
+
+    private function getHeader(): array
+    {
+        return [
+            'Accept' => 'application/json',
+            'Content-Type' => 'json'
+        ];
     }
 }

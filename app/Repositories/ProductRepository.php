@@ -26,7 +26,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function update(array $data, $id)
     {
-        return $this->model->update($data, $id);
+        return parent::update($data, $id);
     }
 
     public function delete($id)

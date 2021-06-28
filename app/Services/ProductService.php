@@ -40,9 +40,9 @@ class ProductService
     {
         DB::transaction(function() use($data, $id) {
             $this->productRepository->update($data, $id);
-            collect($data['variants'])->each(function ($item, $key) use ($id) {
-                return $this->productVariantService->update($item, $id);
-            });
+//            collect($data['variants'])->each(function ($item, $key) use ($id) {
+//                return $this->productVariantService->update($item, $id);
+//            });
             return true;
         }, 3);
         return false;
