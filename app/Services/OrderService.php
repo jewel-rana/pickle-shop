@@ -31,4 +31,9 @@ class OrderService
     {
         $order = $this->orderRepository->create($data);
     }
+
+    public function update(array $data, $id)
+    {
+        $order = $this->orderRepository->show($id);
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDeliveryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('product', ProductController::class);
+Route::group(['prefix' => 'order'], function() {
+   Route::apiResource('delivery', OrderDeliveryController::class);
+});
+Route::apiResource('order', OrderController::class);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
