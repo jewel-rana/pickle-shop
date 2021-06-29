@@ -42,6 +42,7 @@ class OrderFeatureTest extends MyTestCase
         $response
             ->assertJson(function (AssertableJson $json) {
                 $json->where('status', true)
+                    ->whereType('status', 'boolean')
                     ->where('message', 'You have successfully placed an order')
                     ->etc();
             });

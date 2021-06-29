@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Events\OrderPlacedEvent;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -70,6 +71,8 @@ class OrderService
                 OrderItem::create($item + ['order_id' => $order->id]);
             });
             $this->cartService->clear();
+            $order->refresh();
+            event(new OrderPlacedEvent($user, $order));
         }, 2);
     }
 
