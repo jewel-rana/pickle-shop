@@ -20,7 +20,7 @@ class CreateOrderDeliveriesTable extends Migration
             $table->string('delivery_man_mobile');
             $table->decimal('cash_received', 10, 2)->default(0);
             $table->decimal('cash_returned', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'on-the-way', 'failed', 'delivered'])->default('pending')->index();
+            $table->enum('status', ['pending', 'collecting', 'processing', 'failed', 'delivered'])->default('pending')->index();
             $table->timestamps();
         });
     }

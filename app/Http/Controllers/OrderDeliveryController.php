@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\AppConstant;
+use App\Http\Requests\OrderDeliveryStoreRequest;
+use App\Models\OrderDelivery;
+use App\Services\DeliveryService;
 use Illuminate\Http\Request;
 
 class OrderDeliveryController extends Controller
 {
+    public $deliveryService;
+
+    public function __construct(DeliveryService $deliveryService)
+    {
+        $this->deliveryService = $deliveryService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,28 +24,19 @@ class OrderDeliveryController extends Controller
      */
     public function index()
     {
-        //
+        return OrderDelivery::with(['order.customer.user', 'order.orderItems.product', 'order.orderItems.productVariant'])
+            ->where('status', '=', AppConstant::DELIVERY_PENDING)
+            ->all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(OrderDeliveryStoreRequest $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        try {
+            $this->deliveryService->create($request->validated());
+            return response()->success(__('Delivery man assigned to order'));
+        } catch (\Throwable $exception) {
+            return response()->error(__('Something happened wrong', $exception->getMessage()));
+        }
     }
 
     /**
