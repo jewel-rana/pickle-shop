@@ -41,6 +41,8 @@ class CartService
         if(array_key_exists($id, $carts)) {
             unset($carts[$id]);
             session()->put('carts', $carts);
+        } else {
+            throw new \Exception(__('Cart item not found!'));
         }
         return $this->getCartItems();
     }

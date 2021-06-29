@@ -33,6 +33,11 @@ class CartController extends Controller
 
     public function destroy($id = null)
     {
-        return $this->cartService->remove($id);
+        try {
+            $this->cartService->remove($id);
+            return response()->success(__('Cart item successfully removed'), ['carts' => $this->cartService->getCartItems()]);
+        }catch (\Throwable $exception) {
+            return response()->error(__('Cannot remove cart item'), $exception->getMessage());
+        }
     }
 }
