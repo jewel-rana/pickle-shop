@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('shipping_cost', 10, 2)->default(0);
             $table->decimal('total_payable', 10, 2)->default(0);
             $table->decimal('discount', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'active', 'cancelled', 'complete'])->default('pending')->index('order_status');
+            $table->enum('status', ['pending', 'active', 'processing', 'cancelled', 'complete'])->default('pending')->index('order_status');
             $table->timestamps();
         });
     }

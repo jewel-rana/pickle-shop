@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\AppConstant;
+use App\Http\Requests\DeliveryUpdateRequest;
 use App\Http\Requests\OrderDeliveryStoreRequest;
 use App\Models\OrderDelivery;
 use App\Services\DeliveryService;
@@ -39,48 +40,13 @@ class OrderDeliveryController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(DeliveryUpdateRequest $request, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        try {
+            $this->deliveryService->update($request->validated(), $id);
+            return response()->success(__('Your delivery status successfully updated'));
+        } catch (\Throwable $exception) {
+            return response()->error(__('Something happened wrong', $exception->getMessage()));
+        }
     }
 }

@@ -22,7 +22,7 @@ Route::apiResource('product', ProductController::class);
 Route::delete('cart/remove/{any}', [CartController::class, 'destroy']);
 Route::apiResource('cart', CartController::class)->only(['store']);
 Route::group(['prefix' => 'order'], function() {
-   Route::apiResource('delivery', OrderDeliveryController::class);
+   Route::apiResource('delivery', OrderDeliveryController::class)->except(['destory']);
 });
 Route::apiResource('order', OrderController::class);
 

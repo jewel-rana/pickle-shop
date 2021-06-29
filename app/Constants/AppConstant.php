@@ -12,4 +12,8 @@ class AppConstant
     const DELIVERY_PROCESSING = 'processing';
     const DELIVERY_COLLECTED = 'collected';
     const ORDER_PENDING = 'pending';
+    const ORDER_PROCESSING = 'processing';
+    const DELIVERY_COMPLETE = 'delivered';
+    const ORDER_COMPLETE = 'complete';
+    const DELIVERY_FAILED = 'failed';
 }

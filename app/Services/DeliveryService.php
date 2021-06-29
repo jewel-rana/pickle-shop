@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+use App\Events\DeliveryManAssignedEvent;
+use App\Events\OrderDeliveryUpdateEvent;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Repositories\OrderDeliveryRepository;
 
@@ -29,11 +31,14 @@ class DeliveryService
 
     public function create(array $data)
     {
-        return $this->deliveryRepository->create($data);
+        $orderDelivery = $this->deliveryRepository->create($data);
+        event(new DeliveryManAssignedEvent($orderDelivery));
     }
 
     public function update(array $data, $id)
     {
-        return $this->deliveryRepository->update($data, $id);
+        if($this->deliveryRepository->update($data, $id)) {
+            event(new OrderDeliveryUpdateEvent($data));
+        }
     }
 }
