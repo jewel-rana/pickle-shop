@@ -38,7 +38,7 @@ class DeliveryService
     public function update(array $data, $id)
     {
         if($this->deliveryRepository->update($data, $id)) {
-            event(new OrderDeliveryUpdateEvent($data));
+            event(new OrderDeliveryUpdateEvent($data['status'], $id));
         }
     }
 }

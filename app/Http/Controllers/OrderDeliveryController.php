@@ -40,7 +40,7 @@ class OrderDeliveryController extends Controller
             $this->deliveryService->update($request->validated(), $id);
             return response()->success(__('Your delivery status successfully updated'));
         } catch (\Throwable $exception) {
-            return response()->error(__('Something happened wrong', $exception->getMessage()));
+            return response()->error(__('Something happened wrong'), $exception->getFile() . $exception->getLine());
         }
     }
 }

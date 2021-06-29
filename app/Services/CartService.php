@@ -38,6 +38,8 @@ class CartService
     public function remove($id = null)
     {
         $carts = session()->get('carts') ?? [];
+        if(!$carts)
+            throw new \Exception(__('Your cart is empty'));
         if(array_key_exists($id, $carts)) {
             unset($carts[$id]);
             session()->put('carts', $carts);

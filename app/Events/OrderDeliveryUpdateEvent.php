@@ -17,15 +17,17 @@ class OrderDeliveryUpdateEvent
     /**
      * @var array
      */
-    public $data;
+    public $status;
+    public $delivery_id;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(array $data)
+    public function __construct($status, $delivery_id)
     {
-        $this->data = $data;
+        $this->status = $status;
+        $this->delivery_id = $delivery_id;
     }
 }

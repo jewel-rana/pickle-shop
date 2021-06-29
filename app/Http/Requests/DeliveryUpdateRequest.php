@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class DeliveryUpdateRequest extends FormRequest
 {
@@ -24,9 +26,17 @@ class DeliveryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'delivery_id' => 'bail|required|integer|exists:order_deliveries,id',
-            'status' => 'bail|required|in:collected,processing,delivered,failed',
+            'status' => 'bail|in:collected,processing,delivered,failed',
             'message' => 'bail|nullable|string'
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        $response = [
+            'success' => false,
+            'message' => __('Validation failed'),
+            'errors' => $validator->errors()
+        ];
+        throw new HttpResponseException(response()->json($response, 422));
     }
 }

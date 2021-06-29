@@ -15,18 +15,18 @@ class OrderDeliveryUpdateEventListener
 {
     public function handle(OrderDeliveryUpdateEvent $event)
     {
-        switch ($event->data['status']) {
+        switch ($event->status) {
             case AppConstant::DELIVERY_PROCESSING :
-                dispatch(new DeliveryProcessingJob($event->data['delivery_id']));
+                dispatch(new DeliveryProcessingJob($event->delivery_id));
                 break;
             case AppConstant::DELIVERY_COLLECTED :
-                dispatch(new DeliveryCollectedJob($event->data['delivery_id']));
+                dispatch(new DeliveryCollectedJob($event->delivery_id));
                 break;
             case AppConstant::DELIVERY_COMPLETE :
-                dispatch(new DeliveryCompleteJob($event->data['delivery_id']));
+                dispatch(new DeliveryCompleteJob($event->delivery_id));
                 break;
             case AppConstant::DELIVERY_FAILED :
-                dispatch(new DeliveryFailedJob($event->data['delivery_id']));
+                dispatch(new DeliveryFailedJob($event->delivery_id));
                 break;
         }
     }
