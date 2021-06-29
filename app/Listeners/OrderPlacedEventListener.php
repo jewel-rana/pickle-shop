@@ -27,6 +27,6 @@ class OrderPlacedEventListener
      */
     public function handle(OrderPlacedEvent $event)
     {
-        dispatch(new OrderInvoiceSendJob($event));
+        dispatch(new OrderInvoiceSendJob($event->order));
     }
 }

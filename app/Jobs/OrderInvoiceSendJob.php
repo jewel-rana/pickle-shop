@@ -13,15 +13,15 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class OrderInvoiceSendJob
+class OrderInvoiceSendJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $order;
 
-    public function __construct(OrderPlacedEvent $event)
+    public function __construct(Order $order)
     {
-        $this->order = $event->order;
+        $this->order = $order;
     }
 
     public function handle()

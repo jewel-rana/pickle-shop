@@ -66,7 +66,6 @@ class OrderService
                 'discount' => $this->cartService->getTotalDiscount()
             ];
             $order = Order::create($data);
-////            //save order items
             $order->orderItems()->createMany($this->orderItems());
             event(new OrderPlacedEvent($order));
             $this->cartService->clear();
