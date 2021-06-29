@@ -17,11 +17,9 @@ class OrderPlacedEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
-    public $user;
 
-    public function __construct(User $user, Order $order)
+    public function __construct(Order $order)
     {
-        $this->user = $user;
         $this->order = $order;
     }
 }

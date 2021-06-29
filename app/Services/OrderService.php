@@ -60,19 +60,16 @@ class OrderService
             ]);
             //create order
             $data = [
-                'customer_id' => 1,
+                'customer_id' => $customer->id,
                 'total_amount' => $this->cartService->getTotal(),
                 'total_payable' => $this->getPayable(),
                 'discount' => $this->cartService->getTotalDiscount()
             ];
             $order = Order::create($data);
-//            //save order items
-            $this->orderItems()->each(function($item, $key) use($order) {
-                OrderItem::create($item + ['order_id' => $order->id]);
-            });
+////            //save order items
+            $order->orderItems()->createMany($this->orderItems());
+            event(new OrderPlacedEvent($order));
             $this->cartService->clear();
-            $order->refresh();
-            event(new OrderPlacedEvent($user, $order));
         }, 2);
     }
 

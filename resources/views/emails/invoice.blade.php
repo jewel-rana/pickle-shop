@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Invoice</title>
+    <title>Order Invoice</title>
     <style>
         /* reset */
 
@@ -171,15 +171,15 @@
     <table class="meta">
         <tr>
             <th><span contenteditable>Invoice #</span></th>
-            <td><span contenteditable>101138</span></td>
+            <td><span contenteditable>{{ $order->id }}</span></td>
         </tr>
         <tr>
             <th><span contenteditable>Date</span></th>
-            <td><span contenteditable>January 1, 2012</span></td>
+            <td><span contenteditable>{{ $order->created_at->format('F d, Y') }}</span></td>
         </tr>
         <tr>
             <th><span contenteditable>Amount Due</span></th>
-            <td><span id="prefix" contenteditable>$</span><span>600.00</span></td>
+            <td><span id="prefix" contenteditable>$</span><span>{{ $order->total_payable }}</span></td>
         </tr>
     </table>
     <table class="inventory">
@@ -193,20 +193,22 @@
         </tr>
         </thead>
         <tbody>
+        @foreach($order->orderItems as $item)
         <tr>
-            <td><a class="cut">-</a><span contenteditable>Front End Consultation</span></td>
-            <td><span contenteditable>Experience Review</span></td>
-            <td><span data-prefix>$</span><span contenteditable>150.00</span></td>
-            <td><span contenteditable>4</span></td>
-            <td><span data-prefix>$</span><span>600.00</span></td>
+            <td><a class="cut">-</a><span contenteditable>{{ $item->product->name }}</span></td>
+            <td><span contenteditable>{{ $item->product->descripton }}</span></td>
+            <td><span data-prefix>$</span><span contenteditable>{{ number_format($item->unit_price, 2) }}</span></td>
+            <td><span contenteditable>{{ $item->qty }}</span></td>
+            <td><span data-prefix>$</span><span>{{ number_format($item->total_price, 2) }}</span></td>
         </tr>
+        @endforeach
         </tbody>
     </table>
     <a class="add">+</a>
     <table class="balance">
         <tr>
             <th><span contenteditable>Total</span></th>
-            <td><span data-prefix>$</span><span>600.00</span></td>
+            <td><span data-prefix>$</span><span>{{ $order->total_payable }}</span></td>
         </tr>
         <tr>
             <th><span contenteditable>Amount Paid</span></th>
@@ -214,7 +216,7 @@
         </tr>
         <tr>
             <th><span contenteditable>Balance Due</span></th>
-            <td><span data-prefix>$</span><span>600.00</span></td>
+            <td><span data-prefix>$</span><span>{{ $order->total_payable }}</span></td>
         </tr>
     </table>
 </article>

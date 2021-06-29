@@ -14,7 +14,8 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->uuid('id')->unique();
+            $table->id();
+            $table->uuid('invoice_id')->unique();
             $table->unsignedBigInteger('customer_id');
             $table->decimal('total_amount', 10, 2)->default(0);
             $table->decimal('shipping_cost', 10, 2)->default(0);

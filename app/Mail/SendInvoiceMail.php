@@ -22,7 +22,7 @@ class SendInvoiceMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Order $order)
+    public function __construct($order)
     {
         $this->order = $order;
     }

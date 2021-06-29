@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Events\OrderPlacedEvent;
 use App\Mail\SendInvoiceMail;
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,16 +18,14 @@ class OrderInvoiceSendJob
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $order;
-    private $user;
 
     public function __construct(OrderPlacedEvent $event)
     {
         $this->order = $event->order;
-        $this->user = $event->user;
     }
 
     public function handle()
     {
-        Mail::to($this->user)->send(new SendInvoiceMail($this->order));
+        Mail::to($this->order->customer->user)->send(new SendInvoiceMail($this->order));
     }
 }

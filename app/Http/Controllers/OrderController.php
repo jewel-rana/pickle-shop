@@ -33,15 +33,9 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        return Order::with(['orderItems.product','orderItems.productVariant', 'customer.user'])->findOrFail($id);
     }
 
     /**

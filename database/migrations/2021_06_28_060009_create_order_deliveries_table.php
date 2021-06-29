@@ -15,7 +15,7 @@ class CreateOrderDeliveriesTable extends Migration
     {
         Schema::create('order_deliveries', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('order_id')->constrained();
+            $table->foreignId('order_id')->constrained();
             $table->string('delivery_man_name');
             $table->string('delivery_man_mobile');
             $table->decimal('cash_received', 10, 2)->default(0);
