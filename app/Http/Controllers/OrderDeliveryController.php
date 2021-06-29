@@ -7,7 +7,6 @@ use App\Http\Requests\DeliveryUpdateRequest;
 use App\Http\Requests\OrderDeliveryStoreRequest;
 use App\Models\OrderDelivery;
 use App\Services\DeliveryService;
-use Illuminate\Http\Request;
 
 class OrderDeliveryController extends Controller
 {
@@ -18,11 +17,6 @@ class OrderDeliveryController extends Controller
         $this->deliveryService = $deliveryService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return OrderDelivery::with(['order.customer.user', 'order.orderItems.product', 'order.orderItems.productVariant'])
