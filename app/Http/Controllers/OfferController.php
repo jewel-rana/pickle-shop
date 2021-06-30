@@ -26,6 +26,7 @@ class OfferController extends Controller
     {
         try {
             $this->offerService->create($request->validated());
+            return response()->success(__('Offer successfully created'));
         } catch (\Throwable $exception) {
             return response()->error(__('Error!'), $exception->getMessage());
         }
@@ -40,6 +41,7 @@ class OfferController extends Controller
     {
         try {
             $this->offerService->create($request->validated());
+            return response()->success(__('Offer successfully updated'));
         } catch (\Throwable $exception) {
             return response()->error(__('Error!'), $exception->getMessage());
         }

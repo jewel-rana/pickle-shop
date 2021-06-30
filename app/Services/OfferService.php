@@ -20,7 +20,7 @@ class OfferService
     {
         DB::transaction(function() use($data) {
             $offer = $this->offerRepository->create($data);
-            $offer->attach($data['product_ids']);
+            $offer->products()->attach($data['product_ids']);
         }, 2);
     }
 
@@ -28,7 +28,7 @@ class OfferService
     {
         DB::transaction(function() use($data) {
             $offer = $this->offerRepository->update($data, $id);
-            $offer->sync($data['product_ids']);
+            $offer->products()->sync($data['product_ids']);
         }, 2);
     }
 
