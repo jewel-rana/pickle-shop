@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDeliveryController;
 use App\Http\Controllers\ProductController;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('product', ProductController::class);
 Route::delete('cart/remove/{any}', [CartController::class, 'destroy']);
 Route::apiResource('cart', CartController::class)->only(['store']);
+Route::apiResource('offer', OfferController::class);
 Route::group(['prefix' => 'order'], function() {
    Route::apiResource('delivery', OrderDeliveryController::class)->except(['destory']);
 });
