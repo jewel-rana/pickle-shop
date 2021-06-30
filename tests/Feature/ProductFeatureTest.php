@@ -6,9 +6,10 @@ use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use Tests\MyTestCase;
 use Tests\TestCase;
 
-class ProductFeatureTest extends TestCase
+class ProductFeatureTest extends MyTestCase
 {
     use RefreshDatabase;
 
@@ -19,7 +20,7 @@ class ProductFeatureTest extends TestCase
      */
     public function test_product_store_and_update_method()
     {
-        $this->withHeaders($this->getHeader())
+        $this->withHeaders(parent::getHeader())
             ->json('POST', '/api/product', [
                 'name' => 'First product',
                 'description' => 'Description of the product',
@@ -35,12 +36,13 @@ class ProductFeatureTest extends TestCase
                     ]
                 ]
             ]);
-        $product = Product::with(['productVariants.attributes', 'productVariants.stock'])->find(1);
+        $product = parent::getAProduct();
+        $this->assertNotEmpty($product);
         $this->assertCount(1, $product->productVariants);
         $this->assertCount(2, $product->productVariants->first()->attributes);
         $this->assertNotEmpty($product->productVariants->first()->stock);
 
-        $this->withHeaders($this->getHeader())
+        $this->withHeaders(parent::getHeader())
             ->json('PUT', '/api/product/' . $product->id, [
             'name' => 'Updated',
             'description' => 'Updated description'
@@ -48,13 +50,5 @@ class ProductFeatureTest extends TestCase
 
         $product = Product::find($product->id);
         $this->assertContains('Updated', $product->toArray());
-    }
-
-    private function getHeader(): array
-    {
-        return [
-            'Accept' => 'application/json',
-            'Content-Type' => 'json'
-        ];
     }
 }
