@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Constants\AppConstant;
 use App\Models\Product;
 use phpDocumentor\Reflection\Types\Float_;
 
@@ -17,7 +18,7 @@ class CartService
         } else {
             $product = Product::find($data['product_id']);
             $productVariant = $product->productVariants->where('sku', $data['product_sku'])->first();
-            if(!$this->stockAvailable($productVariant)) {
+            if(!$this->stockAvailable($productVariant, $data['qty'])) {
                 throw new \Exception('Stock unavailable');
             }
             $carts[$data['product_sku']] = [
@@ -73,9 +74,9 @@ class CartService
         return collect($carts)->sum('qty');
     }
 
-    private function stockAvailable($productVariant): bool
+    private function stockAvailable($productVariant, int $qty): bool
     {
-        return (bool) 1 == 1;
+        return (bool) $productVariant->stock->qty >= $qty + AppConstant::MIN_STOCK_AMOUNT;
     }
 
     public function clear()
