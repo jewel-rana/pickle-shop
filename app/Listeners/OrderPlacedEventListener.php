@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\OrderPlacedEvent;
 use App\Jobs\OrderInvoiceSendJob;
+use App\Jobs\OrderStockAdjustmentJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -28,5 +29,6 @@ class OrderPlacedEventListener
     public function handle(OrderPlacedEvent $event)
     {
         dispatch(new OrderInvoiceSendJob($event->order));
+        dispatch(new OrderStockAdjustmentJob($event->order));
     }
 }
