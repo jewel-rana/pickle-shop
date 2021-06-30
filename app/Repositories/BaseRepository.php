@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository implements BaseRepositoryInterface
 {
-    /**
-     * @var Model
-     */
     public $model;
 
     public function __construct(Model $model)

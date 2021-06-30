@@ -17,6 +17,7 @@ class CreateOfferProductTable extends Migration
             $table->id();
             $table->unsignedBigInteger('offer_id');
             $table->unsignedBigInteger('product_id');
+            $table->string('product_variants')->nullable();
         });
     }
 
