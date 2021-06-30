@@ -34,9 +34,11 @@ class DeliveryCollectedJob implements ShouldQueue
      */
     public function handle()
     {
-        $delivery = OrderDelivery::with(['order.orderItems.stock'])->findOrFail($this->delivery_id);
+        $delivery = OrderDelivery::with(['order.orderItems.productVariant.stock'])->findOrFail($this->delivery_id);
+        //Update stock by deduction
         $delivery->order->orderItems->each(function($item, $key) {
-            $item->stock->update(['qty' => $item->stock->qty - $item->qty]);
+            $item->productVariant['stock']->qty += $item->qty;
+            $item->productVariant['stock']->save();
         });
         //TODO Sending notification to customer
     }
