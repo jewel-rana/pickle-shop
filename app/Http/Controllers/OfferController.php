@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OfferStoreRequest;
+use App\Http\Requests\OfferUpdateRequest;
 use App\Models\Offer;
 use App\Services\OfferService;
 use Illuminate\Http\Request;
@@ -20,7 +22,7 @@ class OfferController extends Controller
         return Offer::all();
     }
 
-    public function store(Request $request)
+    public function store(OfferStoreRequest $request)
     {
         try {
             $this->offerService->create($request->validated());
@@ -34,7 +36,7 @@ class OfferController extends Controller
         return Offer::findOfFail($id);
     }
 
-    public function update(Request $request, $id)
+    public function update(OfferUpdateRequest $request, $id)
     {
         try {
             $this->offerService->create($request->validated());
