@@ -40,7 +40,7 @@ class OfferController extends Controller
     public function update(OfferUpdateRequest $request, $id)
     {
         try {
-            $this->offerService->create($request->validated());
+            $this->offerService->update($request->validated(), $id);
             return response()->success(__('Offer successfully updated'));
         } catch (\Throwable $exception) {
             return response()->error(__('Error!'), $exception->getMessage());

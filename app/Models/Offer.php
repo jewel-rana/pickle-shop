@@ -10,6 +10,7 @@ class Offer extends Model
 {
     use HasFactory;
     protected $fillable = ['type', 'min_order', 'amount', 'discount_type', 'offer_start', 'offer_end'];
+    protected $guarded = ['product_ids'];
 
     public function products(): BelongsToMany
     {

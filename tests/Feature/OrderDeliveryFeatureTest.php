@@ -12,17 +12,12 @@ use Tests\MyTestCase;
 class OrderDeliveryFeatureTest extends MyTestCase
 {
     use RefreshDatabase;
-    public function setUp(): void
-    {
-        parent::setUp();
-        Artisan::call('db:seed');
-    }
 
     public function test_order_delivered_to_customer()
     {
         parent::placeOrder();
         $order = parent::getOrder();
-        $this->assertNotEmpty($order);
+        $this->assertNotNull($order);
         if($order) {
             $response = $this->withHeaders(parent::getHeader())
                 ->json('POST', 'api/order/delivery', [
@@ -42,7 +37,7 @@ class OrderDeliveryFeatureTest extends MyTestCase
     {
         parent::assignDeliveryMan();
         $delivery = parent::getDelivery();
-        $this->assertNotEmpty($delivery);
+        $this->assertNotNull($delivery);
         if($delivery) {
             $response = $this->withHeaders(parent::getHeader())
                 ->json('PUT', 'api/order/delivery/' . $delivery->id, [

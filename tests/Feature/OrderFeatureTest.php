@@ -5,19 +5,12 @@ namespace Tests\Feature;
 use App\Models\Product;
 use App\Services\CartService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\MyTestCase;
 
 class OrderFeatureTest extends MyTestCase
 {
-    use RefreshDatabase, WithFaker;
-    public function setUp(): void
-    {
-        parent::setUp();
-        Artisan::call('db:seed');
-    }
+    use RefreshDatabase;
 
     /**
      * A basic feature test example.

@@ -4,14 +4,22 @@
 namespace Tests;
 
 
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\OrderDelivery;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 
 class MyTestCase extends TestCase
 {
     use WithFaker;
+    public function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('db:seed');
+    }
+
     protected function getHeader(): array
     {
         return [
@@ -71,6 +79,25 @@ class MyTestCase extends TestCase
     public function getDelivery()
     {
         return OrderDelivery::latest()->first();
+    }
+
+    public function createOffer()
+    {
+        $this->withHeaders($this->getHeader())
+            ->json('POST', 'api/offer', [
+                'type' => 'discount',
+                'min_order' => 2,
+                'discount_type' => 'percent',
+                'amount' => 10,
+                'offer_start' => date('Y-m-d H:i:s'),
+                'offer_end' => now()->addDays(30)->format('Y-m-d H:i:s'),
+                'product_ids' => [1]
+            ]);
+    }
+
+    public function getOffer()
+    {
+        return Offer::latest()->first();
     }
 
     protected function createProduct()

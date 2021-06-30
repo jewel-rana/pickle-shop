@@ -26,9 +26,12 @@ class OfferService
 
     public function update(array $data, int $id)
     {
-        DB::transaction(function() use($data) {
+        DB::transaction(function() use($data, $id){
+            $ids = $data['product_ids'];
+            unset($data['product_ids']);
             $offer = $this->offerRepository->update($data, $id);
-            $offer->products()->sync($data['product_ids']);
+            $offer = $this->offerRepository->show($offer);
+            $offer->products()->sync($ids);
         }, 2);
     }
 
