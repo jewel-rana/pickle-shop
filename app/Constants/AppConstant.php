@@ -16,4 +16,5 @@ class AppConstant
     const DELIVERY_COMPLETE = 'delivered';
     const ORDER_COMPLETE = 'complete';
     const DELIVERY_FAILED = 'failed';
+    const MIN_STOCK_AMOUNT = 5;
 }
