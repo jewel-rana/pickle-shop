@@ -30,7 +30,7 @@ class MyTestCase extends TestCase
 
     protected function getAProduct()
     {
-        return Product::all()->first();
+        return Product::latest()->first();
     }
 
     public function addToCart(): bool
@@ -81,11 +81,11 @@ class MyTestCase extends TestCase
         return OrderDelivery::latest()->first();
     }
 
-    public function createOffer()
+    public function createOffer($type = 'discount')
     {
         $this->withHeaders($this->getHeader())
             ->json('POST', 'api/offer', [
-                'type' => 'discount',
+                'type' => $type,
                 'min_order' => 2,
                 'discount_type' => 'percent',
                 'amount' => 10,

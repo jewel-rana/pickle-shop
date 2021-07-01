@@ -2,6 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Offer;
+use App\Repositories\OfferRepository;
+use App\Services\CartService;
+use App\Services\OfferService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -32,7 +36,7 @@ class OfferFeatureTest extends MyTestCase
 
     public function test_offer_update_method()
     {
-        parent::createOffer();
+        parent::createOffer('discount');
         $offer = parent::getOffer();
         $this->assertNotNull($offer);
         if($offer) {
@@ -53,5 +57,23 @@ class OfferFeatureTest extends MyTestCase
 
             $this->assertDatabaseCount('offer_product', 2);
         }
+    }
+
+    public function test_offer_cart_discount()
+    {
+        parent::createOffer('discount');
+        $offer = parent::getOffer();
+        $this->assertNotNull($offer);
+        parent::addToCart();
+        $cartService = new CartService(new OfferService(new OfferRepository(new Offer())));
+        $this->assertEquals(20.0, $cartService->getCartItems()->first()['discount']);
+    }
+
+    public function test_offer_order_discount()
+    {
+        parent::createOffer();
+        parent::placeOrder();
+        $order = parent::getOrder();
+        $this->assertEquals(20.0, $order->discount);
     }
 }
