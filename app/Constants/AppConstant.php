@@ -17,4 +17,6 @@ class AppConstant
     const ORDER_COMPLETE = 'complete';
     const DELIVERY_FAILED = 'failed';
     const MIN_STOCK_AMOUNT = 5;
+    const NOT_PRE_ORDER = 0;
+    const PRE_ORDER = 1;
 }

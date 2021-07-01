@@ -37,7 +37,7 @@ class MyTestCase extends TestCase
     {
         $product = $this->getAProduct();
         if($product) {
-            $this->withHeaders($this->getHeader())
+            $response = $this->withHeaders($this->getHeader())
                 ->json('POST', 'api/cart', [
                     'product_id' => $product->id,
                     'product_sku' => $product->productVariants->first()->sku,
@@ -51,7 +51,7 @@ class MyTestCase extends TestCase
     public function placeOrder()
     {
         $this->addToCart();
-        $response = $this->withHeaders($this->getHeader())
+        $this->withHeaders($this->getHeader())
             ->json('POST', '/api/order', [
                 'customer_name' => $this->faker()->name(),
                 'customer_email' => $this->faker()->email(),

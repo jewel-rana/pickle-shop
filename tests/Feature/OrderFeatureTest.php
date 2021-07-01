@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Offer;
 use App\Models\Product;
+use App\Repositories\OfferRepository;
 use App\Services\CartService;
+use App\Services\OfferService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\MyTestCase;
@@ -39,7 +42,7 @@ class OrderFeatureTest extends MyTestCase
                     ->where('message', 'You have successfully placed an order')
                     ->etc();
             });
-        $cartService = new CartService();
+        $cartService = new CartService(new OfferService(new OfferRepository(new Offer())));
         $this->assertCount(0, $cartService->getCartItems());
     }
 }

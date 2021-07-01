@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Offer;
 use App\Models\Product;
+use App\Repositories\OfferRepository;
 use App\Services\CartService;
+use App\Services\OfferService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Tests\MyTestCase;
@@ -24,7 +27,7 @@ class CartFeatureTest extends MyTestCase
      */
     public function test_cart_feature()
     {
-        $cartService = new CartService();
+        $cartService = new CartService(new OfferService(new OfferRepository(new Offer())));
         $product = Product::all()->first();
         $this->withHeaders(parent::getHeader())
             ->json('POST', '/api/cart/', [

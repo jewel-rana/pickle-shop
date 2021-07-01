@@ -24,9 +24,9 @@ class Product extends Model
         return $this->belongsToMany(Offer::class)->orderByDesc('offer_end');
     }
 
-    public function activeOffer()
+    public function activeOffers(): BelongsToMany
     {
-        return $this->offers()->where('offer_start', '<=', now())->where('offer_end', '>', now())->first();
+        return $this->offers()->where('offer_start', '<=', now())->where('offer_end', '>', now());
     }
 
     public function productVariants(): HasMany

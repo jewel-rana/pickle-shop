@@ -6,36 +6,78 @@ namespace App\Services;
 
 use App\Constants\AppConstant;
 use App\Models\Product;
-use phpDocumentor\Reflection\Types\Float_;
 
 class CartService
 {
+    private $offerService;
+    public function __construct(OfferService $offerService)
+    {
+        $this->offerService = $offerService;
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function add(array $data)
     {
         $carts = session()->get('carts') ?? [];
         if(array_key_exists($data['product_sku'], $carts)) {
-            $carts[$data['product_sku']]['qty'] += $data['qty'];
+            $this->_adjust($carts, $data);
         } else {
-            $product = Product::find($data['product_id']);
-            $productVariant = $product->productVariants->where('sku', $data['product_sku'])->first();
-            if(!$this->stockAvailable($productVariant, $data['qty'])) {
-                throw new \Exception('Stock unavailable');
-            }
-            $carts[$data['product_sku']] = [
-                'id' => $productVariant->sku,
-                'product_id' => $data['product_id'],
-                'product_variant_id' => $productVariant->id,
-                'product_name' => $product->name,
-                'product_attributes' => $productVariant->attributes->pluck('value', 'type')->toArray(),
-                'qty' => $data['qty'],
-                'price' => $productVariant->price,
-                'discount' => 0
-            ];
+            $this->_new($carts, $data);
         }
+    }
 
+    /**
+     * @throws \Exception
+     */
+    public function _adjust($carts, $data)
+    {
+        $product = Product::find($data['product_id']);
+        $productVariant = $product->productVariants->where('sku', $data['product_sku'])->first();
+        $offer = $product->activeOffers->first();
+        if($product->activeOffers == null && !$this->stockAvailable($productVariant, ($carts[$data['product_sku']]['qty'] + $data['qty']))) {
+            throw new \Exception('Stock unavailable');
+        }
+        $carts[$data['product_sku']]['qty'] += $data['qty'];
+        $carts[$data['product_sku']]['discount'] = $this->offerService->calculateOfferDiscount($offer, $productVariant->price, $carts[$data['product_sku']]['qty']);
         session()->put('carts', $carts);
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function _new($carts, $data)
+    {
+        $product = Product::find($data['product_id']);
+        $productVariant = $product->productVariants->where('sku', $data['product_sku'])->first();
+        $offer = $product->activeOffers->first();
+        if($offer == null && !$this->stockAvailable($productVariant, $data['qty'])) {
+            throw new \Exception('Stock unavailable');
+        }
+        $itemDiscount = 0;
+        $preOrder = AppConstant::NOT_PRE_ORDER;
+        if($offer !== null ) {
+            $itemDiscount = $this->offerService->calculateOfferDiscount($offer, $productVariant->price, $data['qty']);
+            $preOrder = $productVariant->stock['qty'] >= $data['qty'] ? AppConstant::NOT_PRE_ORDER : AppConstant::PRE_ORDER;
+        }
+        $carts[$data['product_sku']] = [
+            'id' => $productVariant->sku,
+            'product_id' => $data['product_id'],
+            'product_variant_id' => $productVariant->id,
+            'product_name' => $product->name,
+            'product_attributes' => $productVariant->attributes->pluck('value', 'type')->toArray(),
+            'qty' => $data['qty'],
+            'price' => $productVariant->price,
+            'discount' => $itemDiscount,
+            'pre_order' => $preOrder
+        ];
+        session()->put('carts', $carts);
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function remove($id = null)
     {
         $carts = session()->get('carts') ?? [];
