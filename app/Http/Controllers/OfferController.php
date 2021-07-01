@@ -34,7 +34,7 @@ class OfferController extends Controller
 
     public function show($id)
     {
-        return Offer::findOfFail($id);
+        return Offer::with('products')->findOrFail($id);
     }
 
     public function update(OfferUpdateRequest $request, $id)

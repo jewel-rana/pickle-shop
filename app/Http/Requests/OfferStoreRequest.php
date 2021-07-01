@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class OfferStoreRequest extends FormRequest
 {
@@ -32,5 +34,14 @@ class OfferStoreRequest extends FormRequest
             'offer_end' => 'bail|required|date_format:Y-m-d H:i:s',
             'product_ids' => 'bail|required|array'
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        $response = [
+            'success' => false,
+            'message' => __('Validation failed'),
+            'errors' => $validator->errors()
+        ];
+        throw new HttpResponseException(response()->json($response, 422));
     }
 }

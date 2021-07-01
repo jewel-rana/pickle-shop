@@ -39,7 +39,9 @@ class OfferService
 
     public function delete(int $id)
     {
-        return $this->offerRepository->delete($id);
+        $offer = Offer::findOrFail($id);
+        $offer->products()->detach();
+        return $offer->delete();
     }
 
     public function calculateOfferDiscount($activeOffer, $price, $qty)

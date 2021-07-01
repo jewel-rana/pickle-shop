@@ -1,0 +1,422 @@
+{
+	"info": {
+		"_postman_id": "ad368ed8-5e43-4d94-8c58-51a0ec65686e",
+		"name": "PickleShop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"test1\",\n    \"description\": \"Hello there\",\n    \"variants\": [\n        {\n            \"sku\": \"abc2\",\n            \"price\": 10.5,\n            \"qty\": 100,\n            \"attributes\": [\n                {\"type\": \"size\", \"value\": \"small\"}\n            ]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/product",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cart Remove Item",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/cart/remove/d9d0f874-75a4-4bf4-b602-4200b3461e04",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cart",
+						"remove",
+						"d9d0f874-75a4-4bf4-b602-4200b3461e04"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add to cart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "product_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "product_sku",
+							"value": "d9d0f874-75a4-4bf4-b602-4200b3461e04",
+							"type": "text"
+						},
+						{
+							"key": "qty",
+							"value": "2",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/cart",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "product_id",
+							"value": "14",
+							"type": "text"
+						},
+						{
+							"key": "product_sku",
+							"value": "f695f5b2-c81f-4b81-9bd4-58c9e8568b22",
+							"type": "text"
+						},
+						{
+							"key": "qty",
+							"value": "2",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/order",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "customer_name",
+							"value": "Jewel Rana",
+							"type": "text"
+						},
+						{
+							"key": "customer_email",
+							"value": "jewelrana.dev@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "customer_address",
+							"value": "address",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/order",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign Delivery man",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "delivery_man_name",
+							"value": "Jewel Rana",
+							"type": "text"
+						},
+						{
+							"key": "delivery_man_mobile",
+							"value": "01911785317",
+							"type": "text"
+						},
+						{
+							"key": "order_id",
+							"value": "11",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/order/delivery",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order",
+						"delivery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update delivery status",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "status",
+							"value": "collected",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/order/delivery/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"order",
+						"delivery",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Offer List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/offer",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"offer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Offer Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"discount\",\n    \"min_order\": 1,\n    \"amount\": 10,\n    \"discount_type\": \"percent\",\n    \"offer_start\": \"2021-07-01 00:00:00\",\n    \"offer_end\": \"2021-08-01 11:59:59\",\n    \"product_ids\": [1]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/offer",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"offer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Offer Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"discount\",\n    \"min_order\": 1,\n    \"amount\": 10,\n    \"discount_type\": \"percent\",\n    \"offer_start\": \"2021-07-01 00:00:00\",\n    \"offer_end\": \"2021-08-01 11:59:59\",\n    \"product_ids\": [1, 2]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/offer/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"offer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Offer show",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/offer/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"offer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/product",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
