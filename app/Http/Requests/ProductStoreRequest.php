@@ -18,7 +18,8 @@ class ProductStoreRequest extends FormRequest
         return [
             'name' => 'bail|required|unique:products,name',
             'description' => 'bail|nullable',
-            'variants' => 'bail|required|array'
+            'variants' => 'bail|required|array',
+            'similar_product_ids' => 'bail|nullable|array'
         ];
     }
 

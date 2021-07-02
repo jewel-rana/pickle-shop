@@ -10,6 +10,8 @@ use App\Models\OrderDelivery;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
+use Illuminate\Testing\TestResponse;
 
 class MyTestCase extends TestCase
 {
@@ -100,8 +102,24 @@ class MyTestCase extends TestCase
         return Offer::latest()->first();
     }
 
-    protected function createProduct()
+    protected function createProduct(): TestResponse
     {
-
+        return $this->withHeaders($this->getHeader())
+            ->json('POST', '/api/product', [
+                'name' => 'First product',
+                'description' => 'Description of the product',
+                'variants' => [
+                    [
+                        'sku' => Str::uuid(),
+                        'price' => 100,
+                        'qty' => 100,
+                        'attributes' => [
+                            ['type' => 'size', 'value' => 'small'],
+                            ['type' => 'color', 'value' => 'blue']
+                        ]
+                    ]
+                ],
+                'similar_product_ids' => [1]
+            ]);
     }
 }

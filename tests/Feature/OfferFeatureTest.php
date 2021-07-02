@@ -7,7 +7,6 @@ use App\Repositories\OfferRepository;
 use App\Services\CartService;
 use App\Services\OfferService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\MyTestCase;
 

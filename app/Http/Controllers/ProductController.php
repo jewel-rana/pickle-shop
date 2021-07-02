@@ -6,39 +6,24 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\ProductService;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
-    /**
-     * @var ProductService
-     */
     private $productService;
-    private $message;
 
     public function __construct(ProductService $productService)
     {
         $this->productService = $productService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+    public function index(): LengthAwarePaginator
     {
         return Product::with(['productVariants.attributes', 'productVariants.stock'])->paginate(15);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param ProductStoreRequest $request
-     * @return Response
-     */
     public function store(ProductStoreRequest $request): Response
     {
         try {
@@ -49,24 +34,11 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|Response
-     */
     public function show($id)
     {
-        return Product::with(['productVariants.attributes', 'productVariants.stock'])->findOrFail($id);
+        return Product::with(['productVariants.attributes', 'productVariants.stock', 'similarProducts'])->findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return JsonResponse
-     */
     public function update(ProductUpdateRequest $request, $id): JsonResponse
     {
         try {
@@ -77,12 +49,6 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return JsonResponse
-     */
     public function destroy($id): JsonResponse
     {
         try {
