@@ -1,5 +1,5 @@
 # PickleShop
-Test project of Newroz technologies
+Test project of Newroz technologies limited
 
 ## Installation
 
@@ -7,6 +7,7 @@ Test project of Newroz technologies
 - Set your .env file with necessary credentials, database, email configuration etc.
 - CD into directory and run composer install / composer update
 - Run php artisan migrate && php artisan db:seed
+- Run php artisan serve to start your local server
 
 ## Testing
 
