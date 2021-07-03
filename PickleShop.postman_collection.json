@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"test1\",\n    \"description\": \"Hello there\",\n    \"variants\": [\n        {\n            \"sku\": \"abc2\",\n            \"price\": 10.5,\n            \"qty\": 100,\n            \"attributes\": [\n                {\"type\": \"size\", \"value\": \"small\"}\n            ]\n        }\n    ]\n}",
+					"raw": "{\n    \"name\": \"test3\",\n    \"description\": \"Hello there 2\",\n    \"variants\": [\n        {\n            \"sku\": \"abc2\",\n            \"price\": 10.5,\n            \"qty\": 100,\n            \"attributes\": [\n                {\"type\": \"size\", \"value\": \"small\"}\n            ]\n        }\n    ],\n    \"similar_product_ids\": [1,2,3]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -413,6 +413,62 @@
 					],
 					"path": [
 						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product Show",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/product/8",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Similar products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/product/similar/5?price=100",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"product",
+						"similar",
+						"5"
+					],
+					"query": [
+						{
+							"key": "price",
+							"value": "100",
+							"description": "if you want to get same price product list"
+						}
 					]
 				}
 			},
